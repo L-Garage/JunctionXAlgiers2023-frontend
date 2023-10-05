@@ -1,8 +1,10 @@
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 import { LatLngExpression } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
 import { useEffect, useState } from 'react';
 import { UAV } from '../utils/types';
+import { renderToString } from 'react-dom/server';
 
 interface Props {}
 
@@ -33,7 +35,14 @@ const Map: React.FC<Props> = (props: Props) => {
 			<TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
 			{uav?.map((uav, i) => (
-				<Marker key={i} position={[uav.gps.lat, uav.gps.lon]}>
+				<Marker
+					icon={L.divIcon({
+						className: '',
+						html: renderToString(<img className='w-10 h-10' src={`/assets/drone-${uav.bat.id}.png`} />),
+					})}
+					key={i}
+					position={[uav.gps.lat, uav.gps.lon]}
+				>
 					<Popup>
 						<div>
 							<h2>{uav.bat.id}</h2>
