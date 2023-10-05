@@ -19,13 +19,9 @@
 		"@types/react-dom": "^18.2.10",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
-		"react-leaflet": "^3.0.0",
+		"react-leaflet": "^4.2.1",
 		"react-scripts": "5.0.1",
-		"react-use-websocket": "^4.5.0",
-		"socket.io-client": "^4.7.2",
-		"typescript": "^4.9.5",
-		"web-vitals": "^2.1.4",
-		"websocket": "^1.0.34"
+		"typescript": "^4.9.5"
 	},
 	"eslintConfig": {
 		"extends": [
@@ -46,7 +42,6 @@
 		]
 	},
 	"devDependencies": {
-		"@types/leaflet": "^1.9.6",
-		"@types/websocket": "^1.0.7"
+		"@types/leaflet": "^1.9.6"
 	}
 }
