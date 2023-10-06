@@ -2,52 +2,41 @@ import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 import { LatLngExpression } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { UAV } from '../utils/types';
 import { renderToString } from 'react-dom/server';
+import { uavSocketLink } from '../utils/values';
+import { MapContext, VehicleContext } from '../utils/context';
 
 interface Props {}
 
 const defaultCenter: LatLngExpression = [36.75963, 2.963334];
 
 const Map: React.FC<Props> = (props: Props) => {
-	const [uav, setUav] = useState<UAV[]>();
+	const { vehicles } = useContext(VehicleContext);
+	const { setMap } = useContext(MapContext);
 
-	const uavSocketLink = 'ws://127.0.0.1:4000/ws';
-
-	useEffect(() => {
-		const ws = new WebSocket(uavSocketLink);
-
-		ws.onmessage = e => {
-			const data = JSON.parse(e.data);
-			setUav(data);
-		};
-
-		ws.onerror = error => {
-			console.log(error);
-		};
-
-		return () => ws.close();
-	}, []);
+	// use carto gray color map
+	const tilesUrl = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
 
 	return (
-		<MapContainer center={defaultCenter} zoom={10} style={{ height: '100vh', width: '100vw', zIndex: 1 }}>
-			<TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+		<MapContainer whenCreated={map => setMap(map)} center={defaultCenter} zoom={10} style={{ height: '100%', width: '100%', zIndex: 1 }}>
+			<TileLayer url={tilesUrl} />
 
-			{uav?.map((uav, i) => (
+			{vehicles?.map((vehicle, i) => (
 				<Marker
 					icon={L.divIcon({
 						className: '',
-						html: renderToString(<img className='w-10 h-10' src={`/assets/drone-${uav.bat.id}.png`} />),
+						html: renderToString(<img className="w-16 h-16" src={`/assets/drone-icon.png`} />),
 					})}
-					key={i}
-					position={[uav.gps.lat, uav.gps.lon]}
+					key={vehicle.name}
+					position={[vehicle.gps.lat, vehicle.gps.lon]}
 				>
 					<Popup>
 						<div>
-							<h2>{uav.bat.id}</h2>
-							<p>latitude: {uav.gps.lat}</p>
-							<p>longitude: {uav.gps.lon}</p>
+							<h2>{vehicle.bat.id}</h2>
+							<p>latitude: {vehicle.gps.lat}</p>
+							<p>longitude: {vehicle.gps.lon}</p>
 						</div>
 					</Popup>
 				</Marker>

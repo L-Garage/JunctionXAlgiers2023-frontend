@@ -1,4 +1,5 @@
 export type UAV = {
+	name: string;
 	bat: {
 		id: number;
 		vl: number;
@@ -20,4 +21,9 @@ export type UAV = {
 		health: number;
 		fm: number;
 	};
+};
+export type Vehicle = {
+	id: number;
+	name: string;
+	dataSourceId: number;
 };

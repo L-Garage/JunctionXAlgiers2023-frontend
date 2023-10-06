@@ -6,8 +6,74 @@ body {
 	margin: 0;
 }
 
+:root {
+	--color-primary: #141414;
+	--color-secondary: #896eef;
+	--nav-width: 6rem;
+}
+
+*:focus {
+	outline: none;
+}
+
 #root {
 	display: flex;
 	flex-direction: column;
-	min-height: 100vh;
+	height: 100vh;
+	position: relative;
+	color: #eaeaea;
+	overflow: hidden;
+}
+
+nav {
+	background-color: var(--color-primary);
+	border-right: 1px solid #e8e8e8;
+	flex: 0 0 200px;
+	height: 100vh;
+	width: var(--nav-width);
+}
+
+.icon {
+	@apply w-12 h-12 p-[0.9rem] flex items-center justify-center rounded-full transition-all cursor-pointer;
+}
+
+.icon.active {
+	background-color: var(--color-secondary);
+}
+
+.icon:hover {
+	background-color: var(--color-secondary);
+}
+
+main {
+	width: calc(100vw - var(--nav-width));
+	height: 100vh;
+	margin-left: var(--nav-width);
+}
+
+input {
+	@apply px-4 py-2 border-[1.75px] border-[#555555] rounded-2xl text-[#969BA0] bg-[#1E1E1E];
+}
+
+.vehicle-card {
+	@apply cursor-pointer px-4 py-3 flex gap-4 border-[1.75px] border-[#555555] rounded-2xl text-[#969BA0] bg-[#1E1E1E];
+}
+
+.vehicle-card img {
+	@apply w-16 object-contain;
+}
+
+.leaflet-bottom.leaflet-right {
+	display: none !important;
+}
+
+.leaflet-layer,
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out,
+.leaflet-control-attribution {
+	filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
+}
+
+#video {
+	@apply absolute z-[100] top-2 right-2 w-[calc(100vw-var(--nav-width)-26rem)] h-[50%];
 }
